@@ -31,13 +31,13 @@ class Node:
     def __init__(self, name, parent = None):
         self.name = name
         self.parent = parent    
-        # sub-directories kept in a dict to avoid duplicates
+        # sub-directories kept in a set to avoid duplicates
         self.children = set()
-        # files of the form {file_name : file_size} - defaultdict(int) for key errors
+        # files of the form {file_name : file_size}
         self.files = defaultdict(int)
     
     def add_dir(self, node: 'Node'):
-        # duplicate entries are checked in the build_tree function
+        # duplicate entries don't need to be checked due to set
         node.parent = self
         self.children.add(node)
 
@@ -70,10 +70,9 @@ def build_tree(commands: list[str]) -> Node:
             curr_node = curr_node.parent
         # else cmd must be directory name - add new child node if it does't exist
         else:
-            if commands[i] not in curr_node.children:
-                directory = Node(commands[i])
-                curr_node.add_dir(directory)
-                curr_node = directory
+            directory = Node(commands[i])
+            curr_node.add_dir(directory)
+            curr_node = directory
     return root
 
 def dfs1(node: Node) -> int:
@@ -106,8 +105,6 @@ def dfs2(node: Node, min_dir_size: int, minimum: int) -> int:
 if __name__ == '__main__':
     commands = read_file(day7_input)
     tree = build_tree(commands)
-    # solution to part 1
-    print(dfs1(tree))
-    # solution to part 2 
-    min_size = 30000000 - (70000000 - tree.dir_size())
-    print(dfs2(tree, min_size, tree.dir_size()))
+    print(dfs1(tree)) # solution to part 1
+    min_size = 30000000 - (70000000 - tree.dir_size()) # min required deletion size
+    print(dfs2(tree, min_size, tree.dir_size())) # solution to part 2
