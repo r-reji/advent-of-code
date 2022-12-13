@@ -65,7 +65,7 @@ def build_tree(commands: list[str]) -> Node:
             size, name = commands[i].split(' ', 1)
             if name not in curr_node.files:
                 curr_node.add_file(name, int(size))
-        # elif cmd is '..' go up one directory - HOW TF DO I DO THIS?
+        # elif cmd is '..' go up one directory
         elif commands[i] == '..':
             curr_node = curr_node.parent
         # else cmd must be directory name - add new child node if it does't exist
@@ -100,7 +100,7 @@ def dfs2(node: Node, min_dir_size: int, minimum: int) -> int:
     # update minimum if needed
     if node.dir_size() > min_dir_size and node.dir_size() < minimum:
         minimum = node.dir_size()
-    # recursive case: minimum DFS of all sub-directories with value > dir_size
+    # recursive case: minimum size of all sub-directories with size > min_dir_size and > minimum
     return min(dfs2(child, min_dir_size, minimum) for child in node.children)
 
 if __name__ == '__main__':
