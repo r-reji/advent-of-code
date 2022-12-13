@@ -32,14 +32,14 @@ class Node:
         self.name = name
         self.parent = parent    
         # sub-directories kept in a dict to avoid duplicates
-        self.children = []
+        self.children = set()
         # files of the form {file_name : file_size} - defaultdict(int) for key errors
         self.files = defaultdict(int)
     
     def add_dir(self, node: 'Node'):
         # duplicate entries are checked in the build_tree function
         node.parent = self
-        self.children.append(node)
+        self.children.add(node)
 
     def add_file(self, name: str, size: int):
         self.files[name] = size
