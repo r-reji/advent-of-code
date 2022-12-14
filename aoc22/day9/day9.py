@@ -22,7 +22,7 @@ class Point:
             else:
                 if xy_diff[0] == 2:
                     return Point(tail.x + (self.x - tail.x)//2, tail.y + (self.y - tail.y))
-                elif xy_diff[1] == 2:
+                else:
                     return Point(tail.x + (self.x - tail.x), tail.y + (self.y - tail.y)//2)
         else:
             return tail
