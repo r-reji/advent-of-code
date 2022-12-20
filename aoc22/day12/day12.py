@@ -30,8 +30,9 @@ def shortest_path(grid: list[list[str]], start_point: Point) -> int:
         for dx, dy in [[0,1], [0,-1], [-1,0], [1,0]]:
             new_point = Point(point.x + dx, point.y + dy)
             if new_point.x in range(rows) and new_point.y in range(cols) and new_point not in visited:
+                new_val = grid[new_point.x][new_point.y]
                 # 'E' can only be reached from 'y' or 'z', 'a' is always reachable and other values can only be reached if they are at most one higher than the current value 
-                if grid[new_point.x][new_point.y] == 'a' or (grid[new_point.x][new_point.y] != 'E' and ord(curr_val) + 1 >= ord(grid[new_point.x][new_point.y])) or (curr_val in {'y', 'z'} and grid[new_point.x][new_point.y] == 'E'):
+                if new_val == 'a' or (new_val != 'E' and ord(curr_val) + 1 >= ord(new_val)) or (curr_val in {'y', 'z'} and new_val== 'E'):
                     queue.append((new_point, path[:]))
                     visited.add(new_point)
     return -1 # Result not found
